@@ -5,6 +5,7 @@ import View from 'reapp-ui/views/View';
 import Button from 'reapp-ui/components/Button';
 import Superagent from 'superagent';
 import Input from 'reapp-ui/components/Input';
+import Gallery from 'reapp-ui/components/Gallery';
 
 const base = 'https://api.flickr.com/services/rest/?api_key=d72c5a85006014ea74022c115e4ebd5b&format=rest&format=json&nojsoncallback=1';
 
@@ -30,17 +31,18 @@ export default React.createClass({
       .get(`${base}&method=flickr.photos.search&text=${searchText}&per_page=10&page=1`, res => {
         if (res.status === 200)
           this.setState({
-            photos: res.body.photos.photo
+            photos: res.body.photos.photo.map(this.flickrPhotoUrl)
           });
       });
   },
 
   render() {
-    let { photos }  = this.state;
+    var { photos } = this.state;
 
     return (
       <NestedViewList {...this.routedViewListProps()}>
         <View title={[this.props.handle, 'scotch']}>
+
           <Input ref="search" />
           <Button onTap={this.handleSearch}>Search Images</Button>
 
@@ -49,10 +51,15 @@ export default React.createClass({
               <p>No photos found!</p>
             }
 
-            {photos.length && photos.map(photo =>
-              <img src={this.flickrPhotoUrl(photo)} />
-            )}
+            {photos.length &&
+              <Gallery
+                images={photos}
+                width={window.innerWidth}
+                height={window.innerHeight - 44}
+              />
+            }
           </div>
+
         </View>
 
         {this.childRouteHandler()}
