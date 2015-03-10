@@ -24,29 +24,47 @@ export default React.createClass({
     let searchText = this.refs.search.getDOMNode().value;
     Superagent
       .get(`${base}&method=flickr.photos.search&text=${searchText}&per_page=10&page=1`, res => {
-        if (res.status === 200)
+        if (res.status === 200 && res.body.photos)
           this.setState({
             photos: res.body.photos.photo.map(this.getFlickrPhotoUrl)
           });
       });
   },
 
+  styles: {
+    view: {
+      inner: {
+        padding: 20
+      }
+    },
+
+    input: {
+      input: {
+        border: '1px solid #ddd',
+        marginBottom: 10
+      }
+    }
+  },
+
   render() {
     var { photos } = this.state;
 
     return (
-      <View title="Flickr Search" styles={{ inner: { padding: 20 } }}>
+      <View title="Flickr Search" styles={this.styles.view}>
 
-        <Input ref="search" />
+        <Input ref="search" styles={this.styles.input} />
         <Button onTap={this.handleSearch}>Search Images</Button>
 
-        <div>
+        <div className="verticalCenter">
           {!photos.length &&
             <p>No photos found!</p>
           }
 
-          {photos.length &&
+          {!!photos.length &&
             <Gallery
+              onClose={() => {
+                this.setState({ photos: [] })
+              }}
               images={photos}
               width={window.innerWidth}
               height={window.innerHeight - 44}

@@ -17,7 +17,7 @@
     "reapp-platform": "^1.0.0",
     "reapp-request": "^0.2.0",
     "reapp-routes": "^0.9.0",
-    "reapp-ui": "^0.9.0",
+    "reapp-ui": "^0.10.0",
     "superagent": "^0.21.0"
   }
 }
