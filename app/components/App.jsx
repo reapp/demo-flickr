@@ -5,7 +5,8 @@ import Input from 'reapp-ui/components/Input';
 import Superagent from 'superagent';
 import Gallery from 'reapp-ui/components/Gallery';
 
-const base = 'https://api.flickr.com/services/rest/?api_key=&format=rest&format=json&nojsoncallback=1';
+const flickrKey = 'a6918dd638e6e7624e50eb4c6fc30fe9';
+const base = `https://api.flickr.com/services/rest/?api_key=${flickrKey}&format=rest&format=json&nojsoncallback=1`;
 
 export default React.createClass({
   getInitialState() {
